@@ -1,15 +1,25 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2020": true
-    },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": 11
-    },
-    "rules": {
-       "semi": "error",
-       "indent": ["error", 2, { "SwitchCase": 1 }]
-    }
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2020": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 11
+  },
+  "rules": {
+    "semi": "error",
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "quote-props": [
+      "error",
+      "as-needed"
+    ]
+  }
 }
