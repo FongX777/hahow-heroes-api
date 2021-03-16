@@ -9,7 +9,7 @@
 npm start
 ```
 
-or if you have installed the docker:
+or if you have installed the docker, just run:
 
 ```shell
 make dev
@@ -96,11 +96,11 @@ To be honest, I don't really write comments in my code, except for four situatio
 
 One of the difficulties I've met is the integration testing of the hahow service. Because I need to make familiar with
 the api without clear documentation. Fortunately, there is an API development tool
-called [Insomnia](https://insomnia.rest/) (like postman in different UI) to test the hahow services. Also, I have done
+called [Insomnia](https://insomnia.rest/) (like postman in a different UI) to test the hahow services. Also, I have done
 some api testing using `nock` to make sure I did understand the behavior of the service.
 
 Second one is that I tend to over-design the system because I thought I had already known how to do. But I resisted that
-impluse, and instead, I used TDD ways to implement the server. Not Until I finished a feature did I refactor the code
+impulse, and instead, I used TDD ways to implement the server. Not Until I finished a feature did I refactor the code
 into the way I desired. Therefore, I can finish the project in time.
 
 Third one is I thought there are still lots of improvement like refactoring the test cases, more tests against
