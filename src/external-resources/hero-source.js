@@ -1,4 +1,5 @@
 const HTTP_OK_STATUS_CODE = 200;
+const BIZZARRE_BACKEND_ERROR_CODE = 1000;
 
 class HeroSourceApiResult {
   constructor(val) {
@@ -46,7 +47,7 @@ class HeroSourceApiFailure {
 }
 
 const success = (val) => new HeroSourceApiResult(val);
-const failure = (val) => new HeroSourceApiFailure(val);
+const failure = ({statusCode, statusMessage}) => new HeroSourceApiFailure({statusCode, statusMessage});
 
 
 class HeroSourceApi {
@@ -77,18 +78,18 @@ class HeroSourceApi {
     const path = `heroes/${id}`;
     const {body, statusCode, statusMessage} = await this.httpRequest.getRequest({url: this.getURL(path)});
 
-    if (body.code) {
-      return {
-        code: body.code,
-        message: body.message,
-      };
+    if (body.code === BIZZARRE_BACKEND_ERROR_CODE) {
+      return failure({
+        statusCode: 500,
+        statusMessage: 'Backend error'
+      });
     }
 
     if (statusCode === HTTP_OK_STATUS_CODE) {
-      return {hero: body};
-    } else {
-      return {statusCode, statusMessage};
+      return success({hero: body});
     }
+
+    return failure({statusCode, statusMessage});
   }
 
   async requestHeroProfileById(id) {
@@ -96,9 +97,9 @@ class HeroSourceApi {
     const {body, statusCode, statusMessage} = await this.httpRequest.getRequest({url: this.getURL(path)});
 
     if (statusCode === HTTP_OK_STATUS_CODE) {
-      return {profile: body};
+      return success({profile: body});
     } else {
-      return {statusCode, statusMessage};
+      return failure({statusCode, statusMessage});
     }
   }
 
@@ -115,10 +116,13 @@ class HeroSourceApi {
     );
 
     if (statusCode === HTTP_OK_STATUS_CODE) {
-      return {authorized: true};
-    } else {
-      return {authorized: false, statusCode, statusMessage};
+      return success({authorized: true});
     }
+    if (statusCode === 401) {
+      return success({authorized: false, statusCode, statusMessage});
+    }
+
+    return failure({statusCode, statusMessage});
   }
 }
 

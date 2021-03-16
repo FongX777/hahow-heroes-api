@@ -52,8 +52,8 @@ test('requestHeroById(1) should return the first hero ', async t => {
 
   const heroSourceApi = new HeroSourceApi({httpRequest, host: HOST});
 
-  const {hero} = await heroSourceApi.requestHeroById('1');
-  t.is(hero.name, "Daredevil");
+  const result = await heroSourceApi.requestHeroById('1');
+  t.is(result.val.hero.name, "Daredevil");
 });
 
 test('requestHeroById(1) but should return backend error ', async t => {
@@ -66,8 +66,9 @@ test('requestHeroById(1) but should return backend error ', async t => {
 
   const heroSourceApi = new HeroSourceApi({httpRequest, host: HOST});
 
-  const {code} = await heroSourceApi.requestHeroById('1');
-  t.is(code, 1000);
+  const result = await heroSourceApi.requestHeroById('1');
+  t.true(result.isFailure());
+  t.is(result.val.statusCode, 500);
 });
 
 test('requestHeroProfileById(1) should return the first hero\'s profile ', async t => {
@@ -82,8 +83,8 @@ test('requestHeroProfileById(1) should return the first hero\'s profile ', async
 
   const heroSourceApi = new HeroSourceApi({httpRequest, host: HOST});
 
-  const {profile} = await heroSourceApi.requestHeroProfileById('1');
-  t.deepEqual(profile, {
+  const result = await heroSourceApi.requestHeroProfileById('1');
+  t.deepEqual(result.val.profile, {
     str: 2,
     int: 7,
     agi: 9,
@@ -98,8 +99,9 @@ test('requestAuth should be authorized', async t => {
 
   const heroSourceApi = new HeroSourceApi({httpRequest, host: HOST});
 
-  const {authorized} = await heroSourceApi.requestAuth({name: 'hahow', password: 'rocks'});
-  t.is(authorized, true);
+  const result = await heroSourceApi.requestAuth({name: 'hahow', password: 'rocks'});
+
+  t.is(result.val.authorized, true);
 });
 
 test('requestAuth with incorrect login data should be unauthorized', async t => {
@@ -109,6 +111,6 @@ test('requestAuth with incorrect login data should be unauthorized', async t => 
 
   const heroSourceApi = new HeroSourceApi({httpRequest, host: HOST});
 
-  const {authorized} = await heroSourceApi.requestAuth({name: 'hahowsss', password: 'rocksssss'});
-  t.is(authorized, false);
+  const result = await heroSourceApi.requestAuth({name: 'hahowsss', password: 'rocksssss'});
+  t.is(result.val.authorized, false);
 });
