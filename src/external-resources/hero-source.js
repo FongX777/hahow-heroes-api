@@ -78,6 +78,10 @@ class HeroSourceApi {
     const path = `heroes/${id}`;
     const {body, statusCode, statusMessage} = await this.httpRequest.getRequest({url: this.getURL(path)});
 
+    if (statusCode !== HTTP_OK_STATUS_CODE) {
+      return failure({statusCode, statusMessage});
+    }
+
     if (body.code === BIZZARRE_BACKEND_ERROR_CODE) {
       return failure({
         statusCode: 500,
@@ -85,11 +89,8 @@ class HeroSourceApi {
       });
     }
 
-    if (statusCode === HTTP_OK_STATUS_CODE) {
-      return success({hero: body});
-    }
+    return success({hero: body});
 
-    return failure({statusCode, statusMessage});
   }
 
   async requestHeroProfileById(id) {

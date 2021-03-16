@@ -105,7 +105,6 @@ class HeroService {
       ...hero,
       profile: profileOrFailure.val.profile
     };
-
     this.responseHandler.respondOK(fullHero);
     return;
   }

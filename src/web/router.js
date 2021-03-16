@@ -27,20 +27,28 @@ function getRouter({heroSourceApi}) {
 
   router.get('/heroes', async (ctx) => {
     const heroService = new HeroApplicationService({heroSourceApi, responseHandler: new KoaResponseHandler(ctx)});
+    const {name: name, password: password} = ctx.headers;
+    if (name || password) {
+      await heroService.callForHeroesWithCredential({name, password});
+      return;
+    }
+
     await heroService.callForHeroes();
     return;
   });
 
-  // router.get('/api/tutor/:tutor_slug', async (ctx) => {
-  //   const tutorSlug = ctx.params.tutor_slug;
-  //
-  //   const {tutor} = await getTutorBySlug({
-  //     tutorRepo, redis, publisher, url: ctx.url, tutorSlug
-  //   });
-  //
-  //   ctx.body = {data: tutor};
-  //   return;
-  // });
+  router.get('/heroes/:hero_id', async (ctx) => {
+    const heroId = ctx.params.hero_id;
+    const {name: name, password: password} = ctx.headers;
+    const heroService = new HeroApplicationService({heroSourceApi, responseHandler: new KoaResponseHandler(ctx)});
+
+    if (name || password) {
+      await heroService.callForSingleHeroWithCredential({heroId, name, password});
+      return;
+    }
+    await heroService.callForSingleHero({heroId});
+    return;
+  });
 
   return router;
 }
