@@ -13,3 +13,8 @@
 
 
 ## References
+
+* [got - npm](https://www.npmjs.com/package/got)
+* [nock - npm](https://www.npmjs.com/package/nock#replying-with-errors)
+* [Elegant error handling with the JavaScript Either monad - LogRocket Blog](https://blog.logrocket.com/elegant-error-handling-javascript-either-monad/)
+* [Either Monad — A functional approach to Error handling in JS | by Dimitris Papadimitriou | ITNEXT](https://itnext.io/either-monad-a-functional-approach-to-error-handling-in-js-ffdc2917ab2)
