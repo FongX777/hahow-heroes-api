@@ -53,3 +53,17 @@ test('test post request should return a body including four elements', async t =
 
   t.is(statusCode, 200);
 });
+
+test('test post request should return 401', async t => {
+  const URL_PATH = getURL('auth');
+  const postData = {
+    name: "hahow",
+    password: "rocksss"
+  };
+  nock(HOST)
+    .post('/auth', postData)
+    .reply(401
+    );
+  const {statusCode} = await postRequest({url: URL_PATH, data: postData});
+  t.is(statusCode, 401);
+});
