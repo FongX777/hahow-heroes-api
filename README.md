@@ -31,12 +31,15 @@ In this project, I applied 'Clean Architecture' in this project with layers.
           necessary interface.
         * `hero-source` is the place we call for heroes data
     * `src/web/` is responsible for our own RESTful API
-    
 
 ### Design Decision Note
 
-1. the logic of response-handler - I've noticed that there are lots of conditions I need to handle in terms of different http status code. Instead of putting these logics in the RESTful framework, the application service can provide more details for me to handle the exception.
-2. why I wrapped the `got` package - It's because first there are too many options you can set in `got` function, I want to make sure that no one would mess up with the options. Second, if I need to upgrade the package, the wrapped interface can make sure no breaking-changes.
+1. the logic of response-handler - I've noticed that there are lots of conditions I need to handle in terms of different
+   http status code. Instead of putting these logics in the RESTful framework, the application service can provide more
+   details for me to handle the exception.
+2. why I wrapped the `got` package - It's because first there are too many options you can set in `got` function, I want
+   to make sure that no one would mess up with the options. Second, if I need to upgrade the package, the wrapped
+   interface can make sure no breaking-changes.
 
 ## 你對於所有使用到的第三方 library 的理解，以及他們的功能簡介
 
@@ -92,11 +95,34 @@ To be honest, I don't really write comments in my code, except for four situatio
 ## 在這份專案中你遇到的困難、問題，以及解決的方法
 
 One of the difficulties I've met is the integration testing of the hahow service. Because I need to make familiar with
-the api without clear documentation. Fortunately, there is an API development tool called [Insomnia](https://insomnia.rest/) (like postman in different UI) to test the hahow services.
-Also, I have done some api testing using `nock` to make sure I did understand the behavior of the service.
+the api without clear documentation. Fortunately, there is an API development tool
+called [Insomnia](https://insomnia.rest/) (like postman in different UI) to test the hahow services. Also, I have done
+some api testing using `nock` to make sure I did understand the behavior of the service.
 
-Second one is that I tend to over-design the system because I thought I had already known how to do. But I resisted that impluse, and instead, I used TDD ways to implement the server. Not Until I finished a feature did I refactor the code into the way I desired.
-Therefore, I can finish the project in time.
+Second one is that I tend to over-design the system because I thought I had already known how to do. But I resisted that
+impluse, and instead, I used TDD ways to implement the server. Not Until I finished a feature did I refactor the code
+into the way I desired. Therefore, I can finish the project in time.
+
+Third one is I thought there are still lots of improvement like refactoring the test cases, more tests against
+application services, and end-to-end testing. Also, some performance boosts.
+
+## API Result
+
+* List Heroes [GET] /heroes ![](./result-imgs/heroes.png)
+* Single Hero [GET] /heroes/:heroId
+    * ok ![](./result-imgs/single-hero-ok.png)
+    * 404 (id not exists) ![](./result-imgs/single-hero-404.png)
+    * 503 (hahow server error) ![](./result-imgs/single-hero-500.png)
+* Authenticated List Heroes [GET] /heroes
+    * ok ![](./result-imgs/auth-heros-ok.png)
+    * 400 (incorrect headers) ![](./result-imgs/auth-heroes-400.png)
+    * 401 (not authorized) ![](./result-imgs/auth-heroes-401.png)
+* Authenticated Single Hero [GET] /heroes/:heroId
+    * ok ![](./result-imgs/auth-single-hero-ok.png)
+    * 400 ![](./result-imgs/auth-single-hero-400.png)
+    * 401 ![](./result-imgs/auth-single-hero-401.png)
+    * 404 ![](./result-imgs/auth-single-hero-404.png)
+    * 503 ![](./result-imgs/auth-single-hero-500.png)
 
 ## References
 
@@ -104,3 +130,5 @@ Therefore, I can finish the project in time.
 * [nock - npm](https://www.npmjs.com/package/nock#replying-with-errors)
 * [Elegant error handling with the JavaScript Either monad - LogRocket Blog](https://blog.logrocket.com/elegant-error-handling-javascript-either-monad/)
 * [Either Monad — A functional approach to Error handling in JS | by Dimitris Papadimitriou | ITNEXT](https://itnext.io/either-monad-a-functional-approach-to-error-handling-in-js-ffdc2917ab2)
+
+
